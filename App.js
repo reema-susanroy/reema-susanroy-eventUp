@@ -47,7 +47,7 @@ export default function App() {
             // )
           })}
           />
-         <Stack.Screen name="New" component={NewScreen} />
+         <Stack.Screen name="Event" component={NewScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

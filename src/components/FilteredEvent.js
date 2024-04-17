@@ -1,12 +1,25 @@
 import React from 'react';
-import { StyleSheet} from 'react-native';
-function FilteredEvent({events}){
-    console.log("filterdcomponent")
+import { StyleSheet, View, Text, Image,TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+function FilteredEvent({ events  }) {
+    const navigation = useNavigation();
+
+    const goToEvent = (eventId) => {
+        console.log(eventId);
+        navigation.navigate('Event', eventId);
+      };
+
     return (
         <>
-        <img style={styles.eventImage} src={`http://localhost:8080/${events.event_image}`} alt="event" />
-        <h3 style={styles.eventName}>{events.event_name}</h3>
-
+            <View style={styles.container} >
+                <TouchableOpacity key={events.id} onPress={ () => goToEvent(events.id)}>
+                    <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
+                    <View style={styles.eventOverlay} >
+                        <Text style={styles.eventName}>{events.event_name}</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </>
     )
 }
@@ -14,11 +27,34 @@ function FilteredEvent({events}){
 export default FilteredEvent;
 
 const styles = StyleSheet.create({
-    eventName: {
-      marginRight: 10
-    },
-    eventImage : {
-        width: '8rem'
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '2rem',
+        width: '8rem',
+        margin: 10,
+        position: 'relative',
+        width: 120,
+        height: 150,
 
-    }
-  });
+    },
+    eventImage: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+        borderRadius: 10,
+    },
+    eventOverlay: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background color
+        paddingHorizontal: 10,
+    },
+    eventName: {
+        fontSize: 12,
+        color: 'white',
+        fontWeight: '600',
+    },
+});

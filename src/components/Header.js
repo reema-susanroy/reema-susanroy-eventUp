@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 function Header() {
     return (
-        <View style={{ flexDirection: 'row', height: 60, alignItems:'center', gap:'12rem' }}>
+        <View style={{ flexDirection: 'row', height: 60, alignItems:'center' }}>
             <View style={{ display:'flex' , justifyContent: 'space-between', alignItems: 'center',}} >
                 <Text>Welcome, User</Text>
             </View>
