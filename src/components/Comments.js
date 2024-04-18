@@ -20,7 +20,6 @@ function Comments({ eventID }) {
 
     const getComments = async () => {
         try {
-            console.log("comments");
             const commentData = await axios.get(`http://192.168.1.67:8080/api/events/${eventID}/comments`);
             setcomments(commentData.data);
             setSuccessData(true);
@@ -39,7 +38,6 @@ function Comments({ eventID }) {
         }
         else {
             try {
-                console.log("entered hndlepost")
                 let data = {
                     "event_id": eventID,
                     "user": "Mohan Muruge",
@@ -47,7 +45,6 @@ function Comments({ eventID }) {
                     "like": 0
                 };
                 const respdata = await axios.post(`http://192.168.1.67:8080/api/events/${eventID}/comments`, data);
-                console.log({respdata});
                 setText("");
                 let newpost = respdata.data;
                 setcomments([ ...comments, newpost ]);
@@ -86,7 +83,7 @@ function Comments({ eventID }) {
                     <Image style={styles.avatarImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="event name" />
                     <TextInput style={styles.input} placeholder="Start a discussion..." placeholderTextColor="gray" value={text} onChangeText={setText} />
                 </View>
-                <View style={styles.buttonCont}>
+                <View style={[styles.buttonCont, styles.border]}>
                     <Button style={styles.button} title="Submit" onPress={handlePress} />
                 </View>
 
@@ -140,4 +137,9 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginVertical: 10,
     },
+    border: {
+        borderWidth: 1,
+        borderBottomColor: '#7a6f6f4a',
+        paddingBottom: 20
+      },
 });

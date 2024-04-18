@@ -1,15 +1,13 @@
-import 'react-native-gesture-handler';
-
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen';
 import NewScreen from './src/screens/NewScreen';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
+import Login from './src/screens/Login';
 import Header from './src/components/Header';
-
+import Footer from './src/components/Footer';
+import { AuthProvider } from './src/navigation/AuthProvider';
 
 const Stack = createStackNavigator();
 
@@ -19,8 +17,10 @@ export default function App() {
     //   <Text>Open up App.js to start working on your app!</Text>
     //   <StatusBar style="auto" />
     // </View>
+    <AuthProvider>
     <NavigationContainer>
-      <Stack.Navigator 
+      {/* <Tab.Navigator tabBar={() => <Footer />}> */}
+      <Stack.Navigator   tabBar={() => <Footer />}
         screenOptions={{
           headerStyle:{
             // backgroundColor: '#228CDB'
@@ -48,8 +48,11 @@ export default function App() {
           })}
           />
          <Stack.Screen name="Event" component={NewScreen} />
+         <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
+      {/* </Tab.Navigator> */}
     </NavigationContainer>
+  </AuthProvider>
   );
 }
 

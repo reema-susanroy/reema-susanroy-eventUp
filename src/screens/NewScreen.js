@@ -1,37 +1,55 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
 import { timeCalc } from '../utils/TimeCalc';
-import { FormatTime } from '../utils/FormatTime';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Button } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 import Comments from '../components/Comments';
-// import pin from '../assets/pin.jpg';
-// import {organizer} from '../assets/organizer.jpg';
-// import calender from '../assets/calender.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import BuyTicketLayout from '../components/BuyTickeLayout';
 
 function NewScreen({ route }) {
-  console.log({ route })
   const id = route.params;
+  const navigation = useNavigation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [events, setEvents] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, sethasError] = useState(false);
   const [successData, setSuccessData] = useState(false);
+  const [isHeartFilled, setIsHeartFilled] = useState();
+  const [userId, setUserId] = useState();
+  const [status, setStatus] = useState();
 
-  const [text, setText] = useState('');
-  const organizer = require('../assets/organizer.jpg');
-  const pin = require('../assets/pin.jpg');
-  const calender = require('../assets/calender.png');
-
+  const {windowHeight}  = Dimensions.get('window');
+  useEffect(() => {
+    checkUserLoggedIn();
+    getFavoriteStatus();
+  });
+  const checkUserLoggedIn = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userId');
+      console.log(userToken);
+      if (userToken) {
+        setIsLoggedIn(true);
+        setUserId(userToken);
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error('Error checking user authentication:', error);
+      Alert.alert('Error', 'An error occurred while checking user authentication.');
+    }
+  };
   useEffect(() => {
     const getEventDetails = async () => {
       try {
-        console.log("event details");
         const eventData = await axios.get(`http://192.168.1.67:8080/api/events/${id}`);
+        // setStatus(getFavorites.status);
         setEvents(eventData.data);
         setSuccessData(true);
         setIsLoading(false);
@@ -44,6 +62,53 @@ function NewScreen({ route }) {
     }
     getEventDetails();
   }, []);
+
+  // useEffect(() => {
+  //   getFavoriteStatus();
+  // }, []);
+  const getFavoriteStatus = async () => {
+    if (userId !== "") {
+      console.log("1")
+      try {
+        if (userId) {
+          const favStatus = await axios.get(`http://192.168.1.67:8080/api/${userId}/favorites/${id}`);
+          console.log(favStatus.status);
+          if (favStatus.status === 200) {
+            console.log("2")
+            setIsHeartFilled(true);
+          }
+        }
+      } catch (error) {
+        console.log("Unable to fetch event details from the database: " + error);
+      }
+    } else {
+      console("else case- false-nouserid")
+      setIsHeartFilled(false);
+    }
+    console.log(isHeartFilled)
+  };
+
+  const toggleIcon = async () => {
+    if (!isLoggedIn) {
+      console.log(userId)
+      // User is not logged in, navigate to login screen
+      navigation.navigate('Login');
+      return;
+    }
+    else {
+      console.log("loged in???")
+      const response = await axios.post(`http://192.168.1.67:8080/api/${userId}/favorites/${events.id}`, {
+        // user_id : userId,
+        event_id: events.id
+      });
+      setIsHeartFilled(!isHeartFilled);
+    }
+  };
+
+  const handleBuyTicket = () => {
+    // Implement your logic to handle the ticket purchase
+    console.log('Buy Ticket pressed');
+  };
   if (isLoading) {
     return (
       <LoadingScreen />
@@ -54,42 +119,54 @@ function NewScreen({ route }) {
       <ErrorScreen />
     )
   }
-  
+
   return (
     <View style={styles.container}>
       {successData &&
         <>
+        <BuyTicketLayout>
           <ScrollView nestedScrollEnabled={true}>
+
             <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
+            <TouchableOpacity onPress={toggleIcon}>
+              {isHeartFilled ? (
+                <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
+              ) : (
+                <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />
+              )}
+            </TouchableOpacity>
+
             <Text style={styles.eventName}>{events.event_name}</Text>
             <View style={styles.cont}>
-              <Image style={styles.organizerImg} source={organizer} accessibilityLabel="event name" />
+              <Ionicons name="folder-open-outline" size={25} color="white" />
               <Text style={styles.eventOrganizer}>Organizer : {events.organizer}</Text>
             </View>
 
             <View style={styles.cont}>
-              <Image style={styles.organizerImg} source={pin} accessibilityLabel="event name" />
+              <Ionicons name="location-outline" size={25} color="white" />
               <Text style={styles.eventLoction}>{events.location}, {events.country}</Text>
             </View>
 
-            <View style={styles.cont}>
-              <Image style={styles.organizerImg} source={calender} accessibilityLabel="event name" />
+            <View style={[styles.cont, styles.border]}>
+              <Ionicons name="calendar-outline" size={25} color="white" />
               <Text style={styles.eventDate}>{timeCalc(events.date)} , {events.time}</Text>
             </View>
-            <Text style={styles.title}>About</Text>
-            <Text style={styles.eventDetails}>{events.event_description}</Text>
-
-            <Text style={styles.title}>Discussions</Text>
-            {/* <View style={styles.discussionCont}>
-              <Image style={styles.avatarImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="event name" />
-              <TextInput style={styles.input} placeholder="Start a discussion..." placeholderTextColor="gray" value={text} onChangeText={setText} />
+            <View style={styles.border}>
+              <Text style={styles.title}>About this event</Text>
+              <Text style={styles.eventDetails}>{events.event_description}</Text>
+              {/* <Ionicons name="heart-sharp heart-outline" size={32} color="red" /> */}
             </View>
-            <View style={styles.buttonCont}>
-              <Button style={styles.button} title="Submit" onPress={handlePress} />
-            </View> */}
-
+            <Text style={styles.title}>Discussions</Text>
             <Comments eventID={id} />
+
+            {/* <View style={styles.footer}>
+              <Text style={styles.feeText}>Fee: events.fee</Text>
+              <TouchableOpacity style={styles.buyButton} onPress={handleBuyTicket}>
+                <Text style={styles.buttonText}>Get Ticket</Text>
+              </TouchableOpacity>
+            </View> */}
           </ScrollView>
+        </BuyTicketLayout>
         </>
       }
     </View>
@@ -99,57 +176,59 @@ export default NewScreen;
 
 const styles = StyleSheet.create({
   container: {
-    color:'white',
+    color: 'white',
     padding: 15,
     backgroundColor: 'black',
     borderRadius: 20,
     margin: 10,
-    display:'flex',
+    display: 'flex',
     flex: 1,
-    flexWrap:'wrap'
+    flexWrap: 'wrap',
+    position: 'relative'
+
   },
   eventName: {
-    padding:10,
-    color:'white',
+    padding: 10,
+    color: 'white',
     fontSize: 28,
     fontWeight: '900',
     flexWrap: 'wrap'
   },
-  eventOrganizer :{
-    color:'white',
+  eventOrganizer: {
+    color: 'white',
     fontSize: 16,
-    padding:10,
-    flex:1,
+    padding: 10,
+    flex: 1,
     flexWrap: 'wrap'
   },
-  eventLoction :{
-    padding:10,
-    color:'white',
+  eventLoction: {
+    padding: 10,
+    color: 'white',
     fontSize: 16,
     flexWrap: 'wrap'
   },
-  eventDate :{
-    padding:10,
-    color:'white',
-    fontSize: 16
+  eventDate: {
+    padding: 10,
+    color: 'white',
+    fontSize: 16,
   },
-  eventDetails :{
-    padding:10,
-    color:'white',
+  eventDetails: {
+    padding: 10,
+    color: 'white',
     fontSize: 16
   },
   eventImage: {
     width: '100%',
-    margin: 15,
+    // margin: 15,
     height: 200,
     resizeMode: 'cover',
     borderRadius: 10,
   },
   discussionCont: {
-    padding:10,
+    padding: 10,
     display: 'flex',
     flexDirection: 'row',
-    gap: 20, 
+    gap: 20,
     alignItems: 'flex-end',
   },
   avatarImage: {
@@ -166,39 +245,72 @@ const styles = StyleSheet.create({
     backgroundColor: '#7a6f6f4d'
   },
   buttonCont: {
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     display: 'flex',
     alignItems: 'flex-end',
     marginVertical: 10,
   },
-  // button: {
-  //   color:'white',
-  //   width: '20%',
-  //   borderRadius:90
-  // },
   organizerImg: {
-    width: 20,
-    height: 50,
+    width: 10,
+    height: 10,
     resizeMode: 'contain',
-    // borderRadius: 10,
+    backgroundColor: 'lightgray'
   },
   cont: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 10,
   },
-  title : {
-    color:'white',
+  border: {
+    borderWidth: 1,
+    borderBottomColor: '#7a6f6f4a',
+    paddingBottom: 20
+  },
+  title: {
+    color: 'white',
     fontSize: 16,
     fontWeight: '900',
     paddingVertical: 15
-  }
+  },
+  favIcon: {
+    position: 'absolute',
+    bottom: 5,
+    right: 40,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
+    backgroundColor: '#f0f0f0',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width:'100%',
+  },
+  feeText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buyButton: {
+    backgroundColor: '#007bff',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 const containerStyle = StyleSheet.create({
   button: {
     width: '20%',
-    borderRadius:50
+    borderRadius: 50
   }
 })
 

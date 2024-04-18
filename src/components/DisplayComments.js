@@ -1,7 +1,6 @@
 import { Text, View, StyleSheet, Image } from 'react-native';
 import {TimeFormat} from '../utils/TimeFormat';
 function DisplayComments({ comment }) {
-    console.log(comment)
     return (
         <>
             <View style={styles.commentCont} >

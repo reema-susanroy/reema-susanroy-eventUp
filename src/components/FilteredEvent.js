@@ -6,7 +6,6 @@ function FilteredEvent({ events  }) {
     const navigation = useNavigation();
 
     const goToEvent = (eventId) => {
-        console.log(eventId);
         navigation.navigate('Event', eventId);
       };
 
@@ -30,12 +29,18 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        padding: '2rem',
-        width: '8rem',
-        margin: 10,
+        margin: 5,
         position: 'relative',
-        width: 120,
-        height: 150,
+        width: 190,
+        height: 230,
+        // borderWidth: 1,
+        padding:8,
+        borderRadius:10,
+        elevation:10,
+        shadowOpacity: 1,
+        shadowRadius:5,
+        shadowOffset: { width: 5, height: 6 }, 
+        shadowColor:'black',
 
     },
     eventImage: {
@@ -51,9 +56,10 @@ const styles = StyleSheet.create({
         right: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background color
         paddingHorizontal: 10,
+        borderRadius:10
     },
     eventName: {
-        fontSize: 12,
+        fontSize: 20,
         color: 'white',
         fontWeight: '600',
     },

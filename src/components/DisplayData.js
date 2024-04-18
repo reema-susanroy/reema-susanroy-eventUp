@@ -1,15 +1,25 @@
-import { View, Text, Image,StyleSheet } from "react-native";
+import { View, Text, Image,StyleSheet, TouchableOpacity } from "react-native";
+import { timeCalc } from "../utils/TimeCalc";
+import { useNavigation } from '@react-navigation/native';
 
 function DisplayData({ category }) {
+    const navigation = useNavigation();
+
+    const goToEvent = (eventId) => {
+        navigation.navigate('Event', eventId);
+      };
+
     return (
         <>
             <View style={styles.container}>
+            <TouchableOpacity key={category.id} onPress={ () => goToEvent(category.id)}>
                 <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${category.event_image}` }} accessibilityLabel="event name" />
             {/* </View>
             <View > */}
                 <Text style={styles.eventName}>{category.event_name}</Text>
-                <Text style={styles.eventName}>{category.date}, {category.time}</Text>
-                <Text style={styles.eventName}>{category.location} {category.country}</Text>
+                <Text style={styles.eventDate}>{timeCalc(category.date)}, {category.time}</Text>
+                <Text style={styles.eventLocation}>{category.location} {category.country}</Text>
+            </TouchableOpacity>
             </View>
         </>
     )
@@ -19,21 +29,35 @@ export default DisplayData;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
-        padding: 10,
+        padding: 20,
         marginBottom: 10,
-        borderRadius: 5,
-        borderWidth: 1,
+        borderRadius: 10,
+        // borderWidth: 1,
         borderColor: '#ccc',
     },
     eventImage: {
         width: '100%',
         height: 200,
-        resizeMode: 'contain',
-        borderRadius: 10,
+        resizeMode: 'cover',
+        borderRadius: 20,
     },
     eventName: {
-        fontSize: 12,
+        fontSize: 20,
         color: 'white',
         fontWeight: '600',
+        paddingVertical:10
     },
+    eventLocation: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: '400',
+        paddingVertical:10
+
+    },
+    eventDate: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: '400',
+    },
+   
 });

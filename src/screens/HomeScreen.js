@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
 import DisplayCategoryData from '../components/DisplayCategoryData';
+import CommonLayout from '../components/CommonLayout';
 
 function HomeScreen() {
   const [events, setEvents] = useState([]);
@@ -65,7 +66,8 @@ function HomeScreen() {
   
   return (
     <>
-      <ScrollView nestedScrollEnabled={true}>
+    <CommonLayout>
+      <ScrollView nestedScrollEnabled={true} style={styles.outerCont}>
         <View style={styles.container}>
           <Upcoming events={events} />
           <View style={styles.categoriesContainer}>
@@ -81,34 +83,43 @@ function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+    </CommonLayout>
     </>
 
   )
 }
 
 const styles = StyleSheet.create({
+  outerCont:{
+    backgroundColor: '#3b3737',    
+  },
   container: {
     // flex: 1,
+    // backgroundColor: 'black',
+    borderRadius: 30,
+    // padding:10,
+    // margin: 10
+
   },
   categoriesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginTop: 10, // Adjust this value as needed
+    marginTop: 20, // Adjust this value as needed
     flexWrap: 'wrap',
     flex: 1,
+    backgroundColor:'black',   
   },
   category: {
     fontSize: 16,
     fontWeight: 'bold',
-    backgroundColor: 'lightgray',
-    borderRadius: 50,
+    backgroundColor: 'white',
     padding: 10,
     margin: 10,
+    borderRadius:20
   },
   categoryCont: {
     display: 'flex',
-
   }
 });
 export default HomeScreen;

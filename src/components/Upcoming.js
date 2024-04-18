@@ -19,7 +19,8 @@ function Upcoming({ events }) {
     }, [])
     return (
         <>
-            <Text>Upcoming Events</Text>
+            <View style={styles.outerCont}>
+            <Text style={styles.title}>Upcoming Events</Text>
             <ScrollView
                 horizontal={true}
                 contentContainerStyle={styles.scrollViewContent}
@@ -33,14 +34,28 @@ function Upcoming({ events }) {
                     }
                 </View>
             </ScrollView>
+            </View>
         </>
     )
 }
 export default Upcoming;
 
 const styles = StyleSheet.create({
+    outerCont:{
+        // padding: 5
+    },
+    title:{
+        fontSize:22,
+        fontWeight:'600',
+        backgroundColor:'black',
+        color: 'white',
+        padding: 10,
+        paddingVertical:20
+        
+    },
     scrollViewContent: {
         flexGrow: 1,
+       
     },
     container: {
         display: 'flex',
