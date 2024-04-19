@@ -8,6 +8,7 @@ import Login from './src/screens/Login';
 import Header from './src/components/Header';
 import Footer from './src/components/Footer';
 import { AuthProvider } from './src/navigation/AuthProvider';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,8 @@ export default function App() {
           />
          <Stack.Screen name="Event" component={NewScreen} />
          <Stack.Screen name="Login" component={Login} />
+         <Stack.Screen name="Profile" component={ProfileScreen} />
+
       </Stack.Navigator>
       {/* </Tab.Navigator> */}
     </NavigationContainer>
