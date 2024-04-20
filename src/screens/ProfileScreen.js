@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Text, View, StyleSheet, Image, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import FormInput from '../components/FormInput';
 
 function ProfileScreen() {
@@ -11,7 +11,7 @@ function ProfileScreen() {
     const [userDetails, setUserDetails] = useState();
 
     useEffect(() => {
-        checkUserLoggedIn();
+        checkUserLoggedIn();        
     });
     const checkUserLoggedIn = async () => {
         try {
@@ -28,9 +28,6 @@ function ProfileScreen() {
             Alert.alert('Error', 'An error occurred while checking user authentication.');
         }
     };
-    setTimeout(()=>{
-        
-    })
     useEffect(()=>{
         const getUserDetails = async ()=>{
             try{
@@ -40,8 +37,10 @@ function ProfileScreen() {
                 console.log("Unable to fetch user details, "+error);
             }
         }
-        getUserDetails();
-    },[]);
+        if(isLoggedIn){
+            getUserDetails();
+        }
+    },[userId]);
     // console.log(userDetails.user_name)
     return (
         <>
@@ -50,19 +49,17 @@ function ProfileScreen() {
                     userDetails &&    
                     (
                     <>
-                    <Text>Hello, {userDetails.user_name}</Text>
                     <View >
                         {/* <Text style={styles.footer}></Text> */}
-                        {/* <Image  source={{ uri: `http://192.168.1.67:8080/${user.event_image}` }} accessibilityLabel="event name" /> */}
+                        <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="event name" />
                     </View>
                     <View style={styles.text}>
-                        <Text>yes</Text>
-                        <FormInput style={styles.text}>{userDetails.user_name}</FormInput>
+                        <Text style={[styles.text , styles.name]} >{userDetails.user_name}</Text>
                         <Text style={styles.text}> {userDetails.contact_email}</Text>
 
-                        <Text style={styles.text}> {userDetails.contact_phone}</Text>
+                        {/* <Text style={styles.text}> {userDetails.contact_phone}</Text>
                         <Text style={styles.text}> {userDetails.user_address}</Text>
-                        <Text style={styles.text}> {userDetails.country}</Text>
+                        <Text style={styles.text}> {userDetails.country}</Text> */}
 
 
 
@@ -88,9 +85,20 @@ const styles = StyleSheet.create({
       backgroundColor: 'white', 
     },
     text: {
-        // marginTop: 50,
-        // padding: 20,
       color: 'black',
       fontSize: 20,
+      display: 'flex',
+      flexDirection:'column',
+      justifyContent:'center',
+      alignItems: 'center'
     },
+    name:{
+        fontSize: 27,
+        fontWeight: '600',
+    },  
+    eventImage: {
+        width: '100%',
+        height: 65,
+        resizeMode: 'contain',
+      },
   });

@@ -124,7 +124,7 @@ function NewScreen({ route }) {
     <View style={styles.container}>
       {successData &&
         <>
-        <BuyTicketLayout>
+        <BuyTicketLayout userId={userId} eventId= {id} eventName={events.event_name} eventLocation={events.location} eventFee={events.fee} eventDate={events.date} eventTime={events.time}>
           <ScrollView nestedScrollEnabled={true}>
 
             <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
@@ -158,13 +158,6 @@ function NewScreen({ route }) {
             </View>
             <Text style={styles.title}>Discussions</Text>
             <Comments eventID={id} />
-
-            {/* <View style={styles.footer}>
-              <Text style={styles.feeText}>Fee: events.fee</Text>
-              <TouchableOpacity style={styles.buyButton} onPress={handleBuyTicket}>
-                <Text style={styles.buttonText}>Get Ticket</Text>
-              </TouchableOpacity>
-            </View> */}
           </ScrollView>
         </BuyTicketLayout>
         </>

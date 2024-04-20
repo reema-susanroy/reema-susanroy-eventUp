@@ -9,6 +9,7 @@ import Header from './src/components/Header';
 import Footer from './src/components/Footer';
 import { AuthProvider } from './src/navigation/AuthProvider';
 import ProfileScreen from './src/screens/ProfileScreen';
+import BookingScreen from './src/screens/BookingScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,7 +52,7 @@ export default function App() {
          <Stack.Screen name="Event" component={NewScreen} />
          <Stack.Screen name="Login" component={Login} />
          <Stack.Screen name="Profile" component={ProfileScreen} />
-
+         <Stack.Screen name="Booking" component={BookingScreen} />
       </Stack.Navigator>
       {/* </Tab.Navigator> */}
     </NavigationContainer>
