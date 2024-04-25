@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet,Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
@@ -7,8 +7,14 @@ import axios from 'axios';
 import { timeCalc } from '../utils/TimeCalc';
 
 function ConfirmButton({children, userId, eventId, eventName, eventLocation, eventFee, eventDate, eventTime, count}) {
-  console.log( "Indise congfirm, ");
   const navigation = useNavigation();
+  const [charge , setCharge] =useState(false);
+  useEffect(()=>{
+    if(typeof(eventFee) === Number){
+      setCharge(true);
+    }
+  },[]);
+
 
     const handleBuyTicket = async () => {
         console.log('Buy Ticket pressed, ');
@@ -24,11 +30,18 @@ function ConfirmButton({children, userId, eventId, eventName, eventLocation, eve
         navigation.navigate('Home');
 
       };
+
+      const calcFee =()=> {
+        console.log("shoukd be here")
+        const numericPart = eventFee.replace('$', '');
+        const numericValue = parseInt(numericPart);
+        return `$` + numericValue*count;
+      }
     return (
         <>
             <View style={styles.container}>
                 <View style={styles.content}>{children}</View>
-
+                <Text style={styles.totalFee}>Total CAD: { eventFee !=='Free' ? calcFee() : eventFee }</Text>
                 <Button type='Confirm'/>
                 <View style={styles.footer}>
               {/* <Text style={styles.feeText}>{eventFee}</Text> */}
@@ -83,4 +96,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
       },
+      totalFee:{
+        borderTopWidth: 1,
+        borderTopColor: 'gray',
+        textAlign: 'right',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        fontSize: 17,
+        fontWeight: '600'
+      }
   });

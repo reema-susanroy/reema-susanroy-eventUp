@@ -15,10 +15,10 @@ function Footer() {
       <TouchableOpacity style={styles.tab} onPress={() => handleHome('Home')}>
         <Ionicons name="home" size={20} color="gray" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.tab} onPress={() => handleHome('Favorites')}>
+      <TouchableOpacity style={styles.tab} onPress={() => handleHome('Favorite')}>
         <Ionicons name="heart" size={20} color="gray" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.tab} onPress={() => handleHome('Tickets')}>
+      <TouchableOpacity style={styles.tab} onPress={() => handleHome('Ticket')}>
         <Ionicons name="ticket" size={20} color="gray" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.tab} onPress={() => handleHome('Profile')}>

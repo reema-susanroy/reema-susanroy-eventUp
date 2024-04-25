@@ -50,7 +50,7 @@ function BookingScreen({ route }) {
                     </View>
                 </View>
                 <View style={styles.feeCont}>
-                    <Text style={styles.fee}>{eventFee}</Text>
+                    <Text style={styles.fee}>{eventFee} </Text>
                 </View>
             </View>
             {/* <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>

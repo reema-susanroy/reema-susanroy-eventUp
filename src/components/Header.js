@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-function Header() {
+function Header({ children }) {
     return (
-        <View style={{ flexDirection: 'row', height: 60, alignItems:'center' }}>
-            <Image style={styles.eventImage}source={{ uri: `http://192.168.1.67:8080/avatar.png` }}/>
+        <View style={{ flexDirection: 'row', alignItems:'center' }}>
+            {/* <Text >EventUp</Text> */}
+            <View style={styles.eventImage}>
+            <Image style={styles.image}source={{ uri: `http://192.168.1.67:8080/Eventup-removebg-preview.png` }}/>
+
+            </View>
+
             {/* <View style={{ display:'flex' , justifyContent: 'space-between', alignItems: 'center',}} >
                 <Text>Welcome, User</Text>
             </View>
@@ -19,9 +24,16 @@ export default Header;
 
 const styles = StyleSheet.create({
 eventImage: {
-    backgroundColor: 'gray',
+    backgroundColor: 'black',
     width: '100%',
-    height: 35,
-    resizeMode: 'contain',
+    height: 58,
+    // aspectRatio: 16 / 3,
+    
   },
+  image:{
+    resizeMode: 'contain',
+    width: '100%',
+    height: 60
+    // aspectRatio: 16 / 3,
+  }
 });
