@@ -11,6 +11,7 @@ import Comments from '../components/Comments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import BuyTicketLayout from '../components/BuyTickeLayout';
+// import { HeaderBackButton } from '@react-navigation/stack';
 
 function NewScreen({ route }) {
   const id = route.params;
@@ -25,7 +26,7 @@ function NewScreen({ route }) {
   const [userId, setUserId] = useState();
   const [status, setStatus] = useState();
 
-  const {windowHeight}  = Dimensions.get('window');
+  const { windowHeight } = Dimensions.get('window');
   useEffect(() => {
     checkUserLoggedIn();
     getFavoriteStatus();
@@ -45,6 +46,13 @@ function NewScreen({ route }) {
       Alert.alert('Error', 'An error occurred while checking user authentication.');
     }
   };
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: () => (
+  //       <HeaderBackButton onPress={() => navigation.goBack()} />
+  //     ),
+  //   });
+  // }, [navigation]);
   useEffect(() => {
     const getEventDetails = async () => {
       try {
@@ -124,42 +132,42 @@ function NewScreen({ route }) {
     <View style={styles.container}>
       {successData &&
         <>
-        <BuyTicketLayout userId={userId} eventId= {id} eventName={events.event_name} eventLocation={events.location} eventFee={events.fee} eventDate={events.date} eventTime={events.time}>
-          <ScrollView nestedScrollEnabled={true}>
+          <BuyTicketLayout userId={userId} eventId={id} eventName={events.event_name} eventLocation={events.location} eventFee={events.fee} eventDate={events.date} eventTime={events.time}>
+            <ScrollView nestedScrollEnabled={true}>
 
-            <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
-            <TouchableOpacity onPress={toggleIcon}>
-              {isHeartFilled ? (
-                <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
-              ) : (
-                <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />
-              )}
-            </TouchableOpacity>
+              <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
+              <TouchableOpacity onPress={toggleIcon}>
+                {isHeartFilled ? (
+                  <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
+                ) : (
+                  <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />
+                )}
+              </TouchableOpacity>
 
-            <Text style={styles.eventName}>{events.event_name}</Text>
-            <View style={styles.cont}>
-              <Ionicons name="folder-open-outline" size={25} color="white" />
-              <Text style={styles.eventOrganizer}>Organizer : {events.organizer}</Text>
-            </View>
+              <Text style={styles.eventName}>{events.event_name}</Text>
+              <View style={styles.cont}>
+                <Ionicons name="folder-open-outline" size={25} color="white" />
+                <Text style={styles.eventOrganizer}>Organizer : {events.organizer}</Text>
+              </View>
 
-            <View style={styles.cont}>
-              <Ionicons name="location-outline" size={25} color="white" />
-              <Text style={styles.eventLoction}>{events.location}, {events.country}</Text>
-            </View>
+              <View style={styles.cont}>
+                <Ionicons name="location-outline" size={25} color="white" />
+                <Text style={styles.eventLoction}>{events.location}, {events.country}</Text>
+              </View>
 
-            <View style={[styles.cont, styles.border]}>
-              <Ionicons name="calendar-outline" size={25} color="white" />
-              <Text style={styles.eventDate}>{timeCalc(events.date)} , {events.time}</Text>
-            </View>
-            <View style={styles.border}>
-              <Text style={styles.title}>About this event</Text>
-              <Text style={styles.eventDetails}>{events.event_description}</Text>
-              {/* <Ionicons name="heart-sharp heart-outline" size={32} color="red" /> */}
-            </View>
-            <Text style={styles.title}>Discussions</Text>
-            <Comments eventID={id} />
-          </ScrollView>
-        </BuyTicketLayout>
+              <View style={[styles.cont, styles.border]}>
+                <Ionicons name="calendar-outline" size={25} color="white" />
+                <Text style={styles.eventDate}>{timeCalc(events.date)} , {events.time}</Text>
+              </View>
+              <View style={styles.border}>
+                <Text style={styles.title}>About this event</Text>
+                <Text style={styles.eventDetails}>{events.event_description}</Text>
+                {/* <Ionicons name="heart-sharp heart-outline" size={32} color="red" /> */}
+              </View>
+              <Text style={styles.title}>Discussions</Text>
+              <Comments eventID={id} />
+            </ScrollView>
+          </BuyTicketLayout>
         </>
       }
     </View>
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width:'100%',
+    width: '100%',
   },
   feeText: {
     fontSize: 16,

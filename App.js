@@ -11,6 +11,8 @@ import { AuthProvider } from './src/navigation/AuthProvider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import BookingScreen from './src/screens/BookingScreen';
 import TicketScreen from './src/screens/TicketsScreen';
+import { Icon } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -33,7 +35,7 @@ export default function App() {
         }
       }
       
-      initialRouteName="Home">
+      initialRouteName="Login">
         <Stack.Screen 
           name="Home" 
           component={HomeScreen} 
@@ -50,11 +52,11 @@ export default function App() {
             // )
           })}
           />
-         <Stack.Screen name="Event" component={NewScreen} />
-         <Stack.Screen name="Login" options={{ title: 'Login' }}  component={Login} initialParams={{ redirectTo: null }} />
-         <Stack.Screen name="Profile" component={ProfileScreen} />
-         <Stack.Screen name="Booking" component={BookingScreen} />
-         <Stack.Screen name="Ticket" component={TicketScreen} />
+         <Stack.Screen name="Login"  component={Login} />
+         <Stack.Screen style={styles.headCont} name="Event" component={NewScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}  />
+         <Stack.Screen style={styles.headCont} name="Profile" component={ProfileScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
+         <Stack.Screen style={styles.headCont} name="Booking" component={BookingScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
+         <Stack.Screen style={styles.headCont} name="Ticket" component={TicketScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}/>
 
       </Stack.Navigator>
       {/* </Tab.Navigator> */}
@@ -73,6 +75,9 @@ const styles = StyleSheet.create({
   headerIcon: {
     marginRight: 10
   },
+  headCont:{
+    backgroundColor: 'black',
+  }
 });
 
 const style = StyleSheet.create({
