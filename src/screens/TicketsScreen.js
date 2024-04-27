@@ -38,7 +38,6 @@ function TicketScreen() {
             try {
                 const response = await axios.get(`http://192.168.1.67:8080/api/booking/${userId}`)
                 setUserDetails(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.log("Unable to fetch data from database, " + error)
             }
@@ -58,7 +57,6 @@ function TicketScreen() {
                 const filterData = userDetails.filter(event => {
                     const eventDate = new Date(event.event_date);
                     const utcString = eventDate.toISOString();
-                    console.log(eventDate, utcString)
                     return utcString > utcCurrentString;
                 });
                 setFilteredEvents(filterData);
