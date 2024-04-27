@@ -12,8 +12,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import BuyTicketLayout from '../components/BuyTickeLayout';
 // import { HeaderBackButton } from '@react-navigation/stack';
+import Config from 'react-native-config';
+// import {BASE_URL} from '@env'
 
 function NewScreen({ route }) {
+  // const { BASE_URL } = process.env;
+  // console.log("Checking base url here", {BASE_URL});
   const id = route.params;
   const navigation = useNavigation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,16 +29,14 @@ function NewScreen({ route }) {
   const [isHeartFilled, setIsHeartFilled] = useState();
   const [userId, setUserId] = useState();
   const [status, setStatus] = useState();
-
+  const [isFavorite, setIsFavorite] = useState(0);
   const { windowHeight } = Dimensions.get('window');
   useEffect(() => {
     checkUserLoggedIn();
-    getFavoriteStatus();
   });
   const checkUserLoggedIn = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userId');
-      console.log(userToken);
       if (userToken) {
         setIsLoggedIn(true);
         setUserId(userToken);
@@ -46,19 +48,13 @@ function NewScreen({ route }) {
       Alert.alert('Error', 'An error occurred while checking user authentication.');
     }
   };
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerLeft: () => (
-  //       <HeaderBackButton onPress={() => navigation.goBack()} />
-  //     ),
-  //   });
-  // }, [navigation]);
   useEffect(() => {
     const getEventDetails = async () => {
       try {
         const eventData = await axios.get(`http://192.168.1.67:8080/api/events/${id}`);
-        // setStatus(getFavorites.status);
+        console.log(eventData.data)
         setEvents(eventData.data);
+        setIsFavorite(eventData.data.isFavorite);
         setSuccessData(true);
         setIsLoading(false);
         sethasError(false);
@@ -71,107 +67,80 @@ function NewScreen({ route }) {
     getEventDetails();
   }, []);
 
-  // useEffect(() => {
-  //   getFavoriteStatus();
-  // }, []);
-  const getFavoriteStatus = async () => {
-    if (userId !== "") {
-      console.log("1")
-      try {
-        if (userId) {
-          const favStatus = await axios.get(`http://192.168.1.67:8080/api/${userId}/favorites/${id}`);
-          console.log(favStatus.status);
-          if (favStatus.status === 200) {
-            console.log("2")
-            setIsHeartFilled(true);
-          }
-        }
-      } catch (error) {
-        console.log("Unable to fetch event details from the database: " + error);
-      }
-    } else {
-      console("else case- false-nouserid")
-      setIsHeartFilled(false);
-    }
-    console.log(isHeartFilled)
-  };
-
   const toggleIcon = async () => {
-    if (!isLoggedIn) {
-      console.log(userId)
-      // User is not logged in, navigate to login screen
-      navigation.navigate('Login');
-      return;
-    }
-    else {
-      console.log("loged in???")
-      const response = await axios.post(`http://192.168.1.67:8080/api/${userId}/favorites/${events.id}`, {
-        // user_id : userId,
-        event_id: events.id
+    try {
+      console.log("entered toggleFav")
+      const response = await axios.put(`http://192.168.1.67:8080/api/events/${events.id}/favorite`, {
+        isFavorite: !isFavorite
       });
       setIsHeartFilled(!isHeartFilled);
+    } catch (error) {
+      console.error('Error toggling favorite status:', error);
     }
-  };
 
-  const handleBuyTicket = () => {
-    // Implement your logic to handle the ticket purchase
-    console.log('Buy Ticket pressed');
-  };
-  if (isLoading) {
-    return (
-      <LoadingScreen />
-    )
+    
   }
-  if (hasError) {
-    return (
-      <ErrorScreen />
-    )
-  }
+// };
 
+const handleBuyTicket = () => {
+  // Implement your logic to handle the ticket purchase
+  console.log('Buy Ticket pressed');
+};
+if (isLoading) {
   return (
-    <View style={styles.container}>
-      {successData &&
-        <>
-          <BuyTicketLayout userId={userId} eventId={id} eventName={events.event_name} eventLocation={events.location} eventFee={events.fee} eventDate={events.date} eventTime={events.time}>
-            <ScrollView nestedScrollEnabled={true}>
-
-              <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
-              <TouchableOpacity onPress={toggleIcon}>
-                {isHeartFilled ? (
-                  <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
-                ) : (
-                  <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />
-                )}
-              </TouchableOpacity>
-
-              <Text style={styles.eventName}>{events.event_name}</Text>
-              <View style={styles.cont}>
-                <Ionicons name="folder-open-outline" size={25} color="white" />
-                <Text style={styles.eventOrganizer}>Organizer : {events.organizer}</Text>
-              </View>
-
-              <View style={styles.cont}>
-                <Ionicons name="location-outline" size={25} color="white" />
-                <Text style={styles.eventLoction}>{events.location}, {events.country}</Text>
-              </View>
-
-              <View style={[styles.cont, styles.border]}>
-                <Ionicons name="calendar-outline" size={25} color="white" />
-                <Text style={styles.eventDate}>{timeCalc(events.date)} , {events.time}</Text>
-              </View>
-              <View style={styles.border}>
-                <Text style={styles.title}>About this event</Text>
-                <Text style={styles.eventDetails}>{events.event_description}</Text>
-                {/* <Ionicons name="heart-sharp heart-outline" size={32} color="red" /> */}
-              </View>
-              <Text style={styles.title}>Discussions</Text>
-              <Comments eventID={id} />
-            </ScrollView>
-          </BuyTicketLayout>
-        </>
-      }
-    </View>
+    <LoadingScreen />
   )
+}
+if (hasError) {
+  return (
+    <ErrorScreen />
+  )
+}
+
+return (
+  <View style={styles.container}>
+    {successData &&
+      <>
+        <BuyTicketLayout userId={userId} eventId={id} eventName={events.event_name} eventLocation={events.location} eventFee={events.fee} eventDate={events.date} eventTime={events.time}>
+          <ScrollView nestedScrollEnabled={true}>
+
+            <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
+            <TouchableOpacity onPress={toggleIcon}>
+              {isHeartFilled ? (
+                <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
+              ) : (
+                <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />
+              )}
+            </TouchableOpacity>
+
+            <Text style={styles.eventName}>{events.event_name}</Text>
+            <View style={styles.cont}>
+              <Ionicons name="folder-open-outline" size={25} color="white" />
+              <Text style={styles.eventOrganizer}>Organizer : {events.organizer}</Text>
+            </View>
+
+            <View style={styles.cont}>
+              <Ionicons name="location-outline" size={25} color="white" />
+              <Text style={styles.eventLoction}>{events.location}, {events.country}</Text>
+            </View>
+
+            <View style={[styles.cont, styles.border]}>
+              <Ionicons name="calendar-outline" size={25} color="white" />
+              <Text style={styles.eventDate}>{timeCalc(events.date)} , {events.time}</Text>
+            </View>
+            <View style={styles.border}>
+              <Text style={styles.title}>About this event</Text>
+              <Text style={styles.eventDetails}>{events.event_description}</Text>
+              {/* <Ionicons name="heart-sharp heart-outline" size={32} color="red" /> */}
+            </View>
+            <Text style={styles.title}>Discussions</Text>
+            <Comments eventID={id} />
+          </ScrollView>
+        </BuyTicketLayout>
+      </>
+    }
+  </View>
+)
 }
 export default NewScreen;
 

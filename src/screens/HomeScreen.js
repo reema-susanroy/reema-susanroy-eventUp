@@ -21,7 +21,6 @@ function HomeScreen() {
   useEffect(() => {
     const getEventData = async () => {
       try {
-        console.log("here");
         // const eventData = await axios.get(`http://localhost:8080/api/events`);
         // const eventData = await axios.get(`http://10.0.2.2:8080/api/events`);
         const eventData = await axios.get(`http://192.168.1.67:8080/api/events`);
@@ -39,9 +38,7 @@ function HomeScreen() {
 
   const handleCategory = async (category) => {
     try {
-      console.log("entered handlecategory")
       const response = await axios.get(`http://192.168.1.67:8080/api/events/category/${category}`);
-      console.log(response.data)
       setCategoryData(response.data);
       setSuccessData(true);
     } catch (error) {
@@ -94,18 +91,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#3b3737',    
   },
   container: {
-    // flex: 1,
-    // backgroundColor: 'black',
     borderRadius: 30,
-    // padding:10,
-    // margin: 10
-
   },
   categoriesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginTop: 20, // Adjust this value as needed
+    marginTop: 20, 
     flexWrap: 'wrap',
     flex: 1,
     backgroundColor:'black',   

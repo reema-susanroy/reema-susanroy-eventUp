@@ -2,7 +2,6 @@ import { Text, View, StyleSheet } from 'react-native';
 import DisplayData from './DisplayData';
 
 function DisplayCategoryData({ categoryData }) {
-    console.log({ categoryData })
     return (
         <>
             <View style={styles.container}>

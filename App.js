@@ -13,6 +13,7 @@ import BookingScreen from './src/screens/BookingScreen';
 import TicketScreen from './src/screens/TicketsScreen';
 import { Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
+import FavoritesScreen from './src/screens/FavoritesScreen';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +36,7 @@ export default function App() {
         }
       }
       
-      initialRouteName="Login">
+      initialRouteName="Home">
         <Stack.Screen 
           name="Home" 
           component={HomeScreen} 
@@ -57,6 +58,7 @@ export default function App() {
          <Stack.Screen style={styles.headCont} name="Profile" component={ProfileScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
          <Stack.Screen style={styles.headCont} name="Booking" component={BookingScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
          <Stack.Screen style={styles.headCont} name="Ticket" component={TicketScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}/>
+         <Stack.Screen style={styles.headCont} name="Favorite" component={FavoritesScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}/>
 
       </Stack.Navigator>
       {/* </Tab.Navigator> */}
