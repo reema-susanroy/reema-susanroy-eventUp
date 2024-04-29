@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { BASE_URL } from '@env'
 
 function Header({ children }) {
     return (
         <View style={{ flexDirection: 'row', alignItems:'center' }}>
             {/* <Text >EventUp</Text> */}
             <View style={styles.eventImage}>
-            <Image style={styles.image}source={{ uri: `http://192.168.1.67:8080/Eventup-removebg-preview.png` }}/>
+            <Image style={styles.image}source={{ uri: `${BASE_URL}/Eventup-removebg-preview.png` }}/>
 
             </View>
 

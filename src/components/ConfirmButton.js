@@ -4,7 +4,7 @@ import { View, StyleSheet,Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
-import { timeCalc } from '../utils/TimeCalc';
+import { BASE_URL } from '@env'
 
 function ConfirmButton({children, userId, eventId, eventName, eventLocation, eventFee, eventDate, eventTime, count}) {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ function ConfirmButton({children, userId, eventId, eventName, eventLocation, eve
 
     const handleBuyTicket = async () => {
         console.log('Buy Ticket pressed, ');
-        const response = await axios.post(`http://192.168.1.67:8080/api/booking/${userId}` , {
+        const response = await axios.post(`${BASE_URL}/api/booking/${userId}` , {
             user_id : userId,
             event_id: eventId,
             event_name: eventName,
@@ -44,7 +44,6 @@ function ConfirmButton({children, userId, eventId, eventName, eventLocation, eve
                 <Text style={styles.totalFee}>Total CAD: { eventFee !=='Free' ? calcFee() : eventFee }</Text>
                 <Button type='Confirm'/>
                 <View style={styles.footer}>
-              {/* <Text style={styles.feeText}>{eventFee}</Text> */}
               <TouchableOpacity style={styles.buyButton} onPress={handleBuyTicket}>
                 <Text style={styles.buttonText}>Confirm</Text>
               </TouchableOpacity>

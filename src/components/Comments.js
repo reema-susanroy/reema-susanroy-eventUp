@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
+import { BASE_URL } from '@env'
 
 function Comments({ eventID }) {
     const [comments, setcomments] = useState([]);
@@ -20,7 +21,7 @@ function Comments({ eventID }) {
 
     const getComments = async () => {
         try {
-            const commentData = await axios.get(`http://192.168.1.67:8080/api/events/${eventID}/comments`);
+            const commentData = await axios.get(`${BASE_URL}/api/events/${eventID}/comments`);
             setcomments(commentData.data);
             setSuccessData(true);
             setIsLoading(false);
@@ -44,7 +45,7 @@ function Comments({ eventID }) {
                     "comment": text,
                     "like": 0
                 };
-                const respdata = await axios.post(`http://192.168.1.67:8080/api/events/${eventID}/comments`, data);
+                const respdata = await axios.post(`${BASE_URL}/api/events/${eventID}/comments`, data);
                 setText("");
                 let newpost = respdata.data;
                 setcomments([ ...comments, newpost ]);
@@ -80,7 +81,7 @@ function Comments({ eventID }) {
         <>
             <View>
                 <View style={styles.discussionCont}>
-                    <Image style={styles.avatarImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="event name" />
+                    <Image style={styles.avatarImage} source={{ uri: `${BASE_URL}/avatar.png` }} accessibilityLabel="event name" />
                     <TextInput style={styles.input} placeholder="Start a discussion..." placeholderTextColor="gray" value={text} onChangeText={setText} />
                 </View>
                 <View style={[styles.buttonCont, styles.border]}>

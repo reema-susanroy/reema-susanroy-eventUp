@@ -1,5 +1,3 @@
-// import * as Permissions from 'expo-permissions';
-
 import React from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import Upcoming from '../components/Upcoming';
@@ -9,6 +7,7 @@ import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
 import DisplayCategoryData from '../components/DisplayCategoryData';
 import CommonLayout from '../components/CommonLayout';
+import { BASE_URL } from '@env'
 
 function HomeScreen() {
   const [events, setEvents] = useState([]);
@@ -21,9 +20,7 @@ function HomeScreen() {
   useEffect(() => {
     const getEventData = async () => {
       try {
-        // const eventData = await axios.get(`http://localhost:8080/api/events`);
-        // const eventData = await axios.get(`http://10.0.2.2:8080/api/events`);
-        const eventData = await axios.get(`http://192.168.1.67:8080/api/events`);
+        const eventData = await axios.get(`${BASE_URL}/api/events`);
         setEvents(eventData.data);
         setIsLoading(false);
         sethasError(false);
@@ -38,7 +35,7 @@ function HomeScreen() {
 
   const handleCategory = async (category) => {
     try {
-      const response = await axios.get(`http://192.168.1.67:8080/api/events/category/${category}`);
+      const response = await axios.get(`${BASE_URL}/api/events/category/${category}`);
       setCategoryData(response.data);
       setSuccessData(true);
     } catch (error) {

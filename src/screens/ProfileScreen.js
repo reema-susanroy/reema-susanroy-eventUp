@@ -8,6 +8,7 @@ import FormInput from '../components/FormInput';
 import CommonLayout from '../components/CommonLayout';
 import LoginButton from '../components/LoginButton';
 import { Button } from 'react-native-elements';
+import { BASE_URL } from '@env'
 
 function ProfileScreen() {
     const navigation = useNavigation();
@@ -37,7 +38,7 @@ function ProfileScreen() {
     useEffect(()=>{
         const getUserDetails = async ()=>{
             try{
-                const response = await axios.get(`http://192.168.1.67:8080/api/users/${userId}`);
+                const response = await axios.get(`${BASE_URL}/api/users/${userId}`);
                 setUserDetails(response.data[0]);
             }catch(error){
                 console.log("Unable to fetch user details, "+error);
@@ -67,7 +68,7 @@ function ProfileScreen() {
                     <CommonLayout>
                     <View >
                         {/* <Text style={styles.footer}></Text> */}
-                        <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="event name" />
+                        <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/avatar.png` }} accessibilityLabel="event name" />
                     </View>
                     <View style={styles.text}>
                         <Text style={[styles.text , styles.name]} >{userDetails.user_name}</Text>

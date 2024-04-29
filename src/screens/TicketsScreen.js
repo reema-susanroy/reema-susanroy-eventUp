@@ -6,6 +6,7 @@ import { timeCalc } from '../utils/TimeCalc';
 import CommonLayout from '../components/CommonLayout';
 import LoginButton from '../components/LoginButton';
 import { Ionicons } from '@expo/vector-icons';
+import { BASE_URL } from '@env'
 
 function TicketScreen() {
     const [activeOption, setActiveOption] = useState('Upcoming');
@@ -36,7 +37,7 @@ function TicketScreen() {
     useEffect(() => {
         const handleData = async () => {
             try {
-                const response = await axios.get(`http://192.168.1.67:8080/api/booking/${userId}`)
+                const response = await axios.get(`${BASE_URL}/api/booking/${userId}`)
                 setUserDetails(response.data);
             } catch (error) {
                 console.log("Unable to fetch data from database, " + error)

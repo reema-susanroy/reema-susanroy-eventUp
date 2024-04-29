@@ -1,21 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, Platform, StyleSheet, ScrollView, Button, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
-// import FormButton from '../components/FormButton';
-// import SocialButton from '../components/SocialButton';
-// import { AuthContext } from '../navigation/AuthProvider';
-import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { BASE_URL } from '@env'
 
 function Login({ navigation, route }) {
-  // const navigation = useNavigation();
-
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
-  // const { login, googleLogin, fbLogin } = useContext(AuthContext);
   const validateInput = () => {
     if (!email || !password) {
       return false;
@@ -25,7 +18,7 @@ function Login({ navigation, route }) {
     const validation = validateInput();
     if (validation) {
       try {
-        const response = await axios.post(`http://192.168.1.67:8080/api/auth/login`, {
+        const response = await axios.post(`${BASE_URL}/api/auth/login`, {
           contact_email: email,
           password: password,
         });
@@ -77,10 +70,6 @@ function Login({ navigation, route }) {
           title='Login'
           onPress={() => login(email, password)}
         />
-        {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-                    <Text style={styles.navButtonText}>Forgot Password?</Text>
-                </TouchableOpacity> */}
-
         <TouchableOpacity
           style={styles.forgotButton}
         >

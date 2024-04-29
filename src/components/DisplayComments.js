@@ -1,11 +1,13 @@
 import { Text, View, StyleSheet, Image } from 'react-native';
 import {TimeFormat} from '../utils/TimeFormat';
+import { BASE_URL } from '@env'
+
 function DisplayComments({ comment }) {
     return (
         <>
             <View style={styles.commentCont} >
                 <View style={styles.nameCont} >
-                    <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/avatar.png` }} accessibilityLabel="placeholder" />
+                    <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/avatar.png` }} accessibilityLabel="placeholder" />
                     <Text style={styles.commmentUser}>{comment.user}</Text>
                     <Text style={styles.commmentDate}>. {TimeFormat(comment.created_at)}</Text>
                 </View>

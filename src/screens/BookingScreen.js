@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { Button } from "react-native-elements";
 import ConfirmButton from "../components/ConfirmButton";
 import { timeCalc } from "../utils/TimeCalc";
 
@@ -53,9 +52,6 @@ function BookingScreen({ route }) {
                     <Text style={styles.fee}>{eventFee} </Text>
                 </View>
             </View>
-            {/* <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-                <Text style={styles.confirmButtonText}>Confirm</Text>
-            </TouchableOpacity> */}
         </ConfirmButton>
         </>
     )

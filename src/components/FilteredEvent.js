@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image,TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BASE_URL } from '@env'
 
 function FilteredEvent({ events  }) {
     const navigation = useNavigation();
@@ -13,7 +14,7 @@ function FilteredEvent({ events  }) {
         <>
             <View style={styles.container} >
                 <TouchableOpacity key={events.id} onPress={ () => goToEvent(events.id)}>
-                    <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${events.event_image}` }} accessibilityLabel="event name" />
+                    <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/${events.event_image}` }} accessibilityLabel="event name" />
                     <View style={styles.eventOverlay} >
                         <Text style={styles.eventName}>{events.event_name}</Text>
                     </View>

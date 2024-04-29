@@ -1,6 +1,7 @@
 import { View, Text, Image,StyleSheet, TouchableOpacity } from "react-native";
 import { timeCalc } from "../utils/TimeCalc";
 import { useNavigation } from '@react-navigation/native';
+import { BASE_URL } from '@env'
 
 function DisplayData({ category }) {
     const navigation = useNavigation();
@@ -13,7 +14,7 @@ function DisplayData({ category }) {
         <>
             <View style={styles.container}>
             <TouchableOpacity key={category.id} onPress={ () => goToEvent(category.id)}>
-                <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${category.event_image}` }} accessibilityLabel="event name" />
+                <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/${category.event_image}` }} accessibilityLabel="event name" />
             {/* </View>
             <View > */}
                 <Text style={styles.eventName}>{category.event_name}</Text>
