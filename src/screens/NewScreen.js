@@ -9,7 +9,6 @@ import { timeCalc } from '../utils/TimeCalc';
 import { ScrollView } from 'react-native-gesture-handler';
 import Comments from '../components/Comments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import BuyTicketLayout from '../components/BuyTickeLayout';
 import { BASE_URL } from '@env'
 
@@ -20,7 +19,6 @@ function NewScreen({ route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, sethasError] = useState(false);
   const [successData, setSuccessData] = useState(false);
-  const [isHeartFilled, setIsHeartFilled] = useState();
   const [userId, setUserId] = useState();
   const [userName, setUserName] = useState();
   const [isFavorite, setIsFavorite] = useState(0);
@@ -60,7 +58,7 @@ function NewScreen({ route }) {
       await axios.put(`${BASE_URL}/api/events/${events.id}/favorite`, {
         isFavorite: !isFavorite
       });
-      setIsHeartFilled(!isHeartFilled);
+      setIsFavorite(!isFavorite);
     } catch (error) {
       console.error('Error toggling favorite status:', error);
     }
@@ -86,7 +84,7 @@ function NewScreen({ route }) {
 
               <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/${events.event_image}` }} accessibilityLabel="event name" />
               <TouchableOpacity onPress={toggleIcon}>
-                {isHeartFilled ? (
+                {isFavorite ? (
                   <Ionicons style={styles.favIcon} name="heart-circle" size={40} color="red" />
                 ) : (
                   <Ionicons style={styles.favIcon} name="heart-circle-outline" size={40} color="black" />

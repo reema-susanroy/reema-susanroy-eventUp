@@ -23,7 +23,6 @@ function ProfileScreen() {
     const checkUserLoggedIn = async () => {
         try {
             const userToken = await AsyncStorage.getItem('userId');
-            console.log(userToken);
             if (userToken) {
                 setIsLoggedIn(true);
                 setUserId(userToken);
@@ -67,15 +66,11 @@ function ProfileScreen() {
                     <>
                     <CommonLayout>
                     <View >
-                        {/* <Text style={styles.footer}></Text> */}
                         <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/avatar.png` }} accessibilityLabel="event name" />
                     </View>
                     <View style={styles.text}>
                         <Text style={[styles.text , styles.name]} >{userDetails.user_name}</Text>
                         <Text style={styles.text}> {userDetails.contact_email}</Text>
-                        {/* <Text style={styles.text}> {userDetails.contact_phone}</Text>
-                        <Text style={styles.text}> {userDetails.user_address}</Text>
-                        <Text style={styles.text}> {userDetails.country}</Text> */}
                     </View>
 
                     <View>

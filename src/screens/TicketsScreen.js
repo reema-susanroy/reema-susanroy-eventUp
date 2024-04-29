@@ -1,11 +1,10 @@
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions  } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { timeCalc } from '../utils/TimeCalc';
 import CommonLayout from '../components/CommonLayout';
 import LoginButton from '../components/LoginButton';
-import { Ionicons } from '@expo/vector-icons';
+import DisplayBookedList from '../components/DisplayBookedList';
 import { BASE_URL } from '@env'
 
 function TicketScreen() {
@@ -14,6 +13,7 @@ function TicketScreen() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userDetails, setUserDetails] = useState();
     const [filteredEvents, setFilteredEvents] = useState([]);
+    const screenHeight = Dimensions.get('window').height;
 
     useEffect(() => {
         checkUserLoggedIn();
@@ -22,7 +22,6 @@ function TicketScreen() {
     const checkUserLoggedIn = async () => {
         try {
             const userToken = await AsyncStorage.getItem('userId');
-            console.log(userToken);
             if (userToken) {
                 setIsLoggedIn(true);
                 setUserId(userToken);
@@ -81,7 +80,7 @@ function TicketScreen() {
                             <CommonLayout>
                                 <ScrollView nestedScrollEnabled={true}>
 
-                                    <View style={styles.container}>
+                                    <View style={[styles.container , { height: screenHeight }]}>
                                         <Text style={styles.heading}> Tickets </Text>
                                         <View style={styles.options}>
 
@@ -95,57 +94,17 @@ function TicketScreen() {
                                         <View style={styles.ticketBox}>
                                             {activeOption === 'Upcoming' ? (
                                                 filteredEvents.map(event => (
-                                                    <View key={event.id} style={styles.viewCont}>
-                                                        <View style={styles.ticketTop}>
-                                                            <Text style={styles.eventName}>{event.event_name}</Text>
-                                                            <View style={styles.ticket}> 
-                                                                <Ionicons style={styles.favIcon} name="ticket" size={20} color="black" />
-                                                                <Text style={[styles.eventName, styles.color]}>{event.count}</Text>
-                                                            </View>
-                                                        </View>
-                                                        <View
-                                                            style={{
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                flexDirection: 'row',
-                                                            }}>
-                                                            <View
-                                                                style={{
-                                                                    height: 30,
-                                                                    width: 40,
-                                                                    borderRadius: 50,
-                                                                    backgroundColor: 'grey',
-                                                                }}
-                                                            />
-                                                            <Text style={{ color: 'grey' }}>
-                                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                                                                - - - - - - - -
-                                                            </Text>
-                                                            <View
-                                                                style={{
-                                                                    height: 30,
-                                                                    width: 40,
-                                                                    borderRadius: 50,
-                                                                    backgroundColor: 'grey',
-                                                                }}
-                                                            />
-                                                        </View>
-                                                        <View style={styles.ticketBottom}>
-                                                            <Text style={styles.eventTime}>{timeCalc(event.event_date)} at {event.event_time}</Text>
-                                                            <Text style={styles.eventAmount}> CAD : {event.fee}</Text>
-                                                        </View>
-                                                    </View>
+                                                    <DisplayBookedList event={event} />
                                                 ))
                                             ) : (
                                                 filteredEvents.map(event => (
-                                                    <Text key={event.id}>{event.event_name}</Text>
+                                                    <DisplayBookedList event={event} />
                                                 ))
                                             )}
                                         </View>
                                     </View>
                                 </ScrollView>
                             </CommonLayout>
-
                         </>
                     )
                 )
@@ -161,7 +120,7 @@ export default TicketScreen;
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'gray',    
+        backgroundColor: 'gray',
     },
     heading: {
         color:'white',

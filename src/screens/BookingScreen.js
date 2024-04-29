@@ -22,9 +22,6 @@ function BookingScreen({ route }) {
             setCount(count - 1);
         }
     };
-    const handleConfirm=()=>{
-        console.log("confirm clicked")
-    }
     return (
         <> 
         <ConfirmButton userId={userId} eventId={eventId} eventName={eventName} eventLocation={eventLocation} eventFee={eventFee} eventDate={eventDate} eventTime={eventTime} count={count}>

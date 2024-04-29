@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import { BASE_URL } from '@env'
+import Popup from './Popup';
 
 function ConfirmButton({children, userId, eventId, eventName, eventLocation, eventFee, eventDate, eventTime, count}) {
   const navigation = useNavigation();
+  const [showPopup, setShowPopup] = useState(false);
   const [charge , setCharge] =useState(false);
   useEffect(()=>{
     if(typeof(eventFee) === Number){
@@ -27,7 +29,14 @@ function ConfirmButton({children, userId, eventId, eventName, eventLocation, eve
             event_time: eventTime,
             count: count
         });
-        navigation.navigate('Home');
+
+        {showPopup && 
+          <Popup/>
+          setTimeout (()=>{
+            navigation.navigate('Home');
+          },2000)
+        }
+        
 
       };
 

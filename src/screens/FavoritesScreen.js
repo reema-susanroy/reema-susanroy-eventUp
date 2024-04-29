@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView, Dimensions} from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CommonLayout from '../components/CommonLayout';
@@ -7,6 +7,8 @@ import { BASE_URL } from '@env'
 
 function FavoritesScreen() {
     const [userData, setUserData] = useState();
+    const screenHeight = Dimensions.get('window').height;
+
     useEffect(() => {
         const handleData = async () => {
             try {
@@ -23,11 +25,11 @@ function FavoritesScreen() {
         <>
             <CommonLayout>
                 <ScrollView nestedScrollEnabled={true}>
-                    <View>
-                        <Text>Favorites</Text>
+                    <View style={{backgroundColor:'lightgray' , height: screenHeight }} >
+                        <Text style={styles.heading} >Favorites</Text>
                         {userData &&
                             userData.map((user) => (
-                                <View style={styles.container}>
+                                <View key= {user.id}  style={styles.container}>
                                     <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${user.event_image}` }} accessibilityLabel="event name" />
                                     <View >
                                         <Text style={styles.eventName}>{user.event_name}</Text>
@@ -57,6 +59,14 @@ const styles = StyleSheet.create({
         // borderWidth: 20,
         borderRadius: 10,
         backgroundColor:'gray',
+    },
+    heading: {
+        backgroundColor:'gray',
+        color:'white',
+        fontSize: 20,
+        fontWeight: '900',
+        padding: 10,
+        height: 70
     },
     eventImage: {
         margin: 20,
