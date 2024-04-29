@@ -7,7 +7,7 @@ import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
 import { BASE_URL } from '@env'
 
-function Comments({ eventID }) {
+function Comments({ eventID, userName }) {
     const [comments, setcomments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, sethasError] = useState(false);
@@ -41,7 +41,7 @@ function Comments({ eventID }) {
             try {
                 let data = {
                     "event_id": eventID,
-                    "user": "Mohan Muruge",
+                    "user": userName,
                     "comment": text,
                     "like": 0
                 };
@@ -85,7 +85,7 @@ function Comments({ eventID }) {
                     <TextInput style={styles.input} placeholder="Start a discussion..." placeholderTextColor="gray" value={text} onChangeText={setText} />
                 </View>
                 <View style={[styles.buttonCont, styles.border]}>
-                    <Button style={styles.button} title="Submit" onPress={handlePress} />
+                    <Button  title="Submit" onPress={handlePress} />
                 </View>
 
                 {successData && (
@@ -100,7 +100,9 @@ function Comments({ eventID }) {
                             ))
                         )}
                         {!showAllComments && comments.length > 5 && (
-                            <Button title="See All" onPress={handleSeeAllComments} />
+                            <View style={[styles.buttonCont, styles.border]}>
+                                <Button title="See All" onPress={handleSeeAllComments}/>
+                            </View>
                         )}
                     </>
                 )}
@@ -137,10 +139,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'flex-end',
         marginVertical: 10,
+        borderRadius: 10
     },
     border: {
         borderWidth: 1,
         borderBottomColor: '#7a6f6f4a',
-        paddingBottom: 20
+        paddingBottom: 20,
+        borderRadius: 30
+
       },
 });

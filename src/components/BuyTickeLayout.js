@@ -4,11 +4,8 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 function BuyTicketLayout({ children, userId, eventId, eventName, eventLocation, eventFee, eventDate, eventTime }) {
-  console.log("Indise buy ticketLayout, " + eventId);
   const navigation = useNavigation();
   const handleBuyTicket = () => {
-    // Implement your logic to handle the ticket purchase
-    console.log('Buy Ticket pressed, ' + eventId);
     navigation.navigate('Booking', { userId, eventId, eventName, eventLocation, eventFee, eventDate, eventTime });
 
   };
@@ -57,7 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buyButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: 'darkorange',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,

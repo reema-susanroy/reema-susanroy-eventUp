@@ -14,11 +14,7 @@ import BuyTicketLayout from '../components/BuyTickeLayout';
 import { BASE_URL } from '@env'
 
 function NewScreen({ route }) {
-  // const { BASE_URL } = process.env;
-  console.log("Checking base url here", BASE_URL );
   const id = route.params;
-  const navigation = useNavigation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [events, setEvents] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -26,21 +22,16 @@ function NewScreen({ route }) {
   const [successData, setSuccessData] = useState(false);
   const [isHeartFilled, setIsHeartFilled] = useState();
   const [userId, setUserId] = useState();
-  const [status, setStatus] = useState();
+  const [userName, setUserName] = useState();
   const [isFavorite, setIsFavorite] = useState(0);
-  const { windowHeight } = Dimensions.get('window');
+
   useEffect(() => {
     checkUserLoggedIn();
   });
   const checkUserLoggedIn = async () => {
     try {
-      const userToken = await AsyncStorage.getItem('userId');
-      if (userToken) {
-        setIsLoggedIn(true);
-        setUserId(userToken);
-      } else {
-        setIsLoggedIn(false);
-      }
+      setUserId(await AsyncStorage.getItem('userId'));
+      setUserName(await AsyncStorage.getItem('userName'));
     } catch (error) {
       console.error('Error checking user authentication:', error);
       Alert.alert('Error', 'An error occurred while checking user authentication.');
@@ -50,7 +41,6 @@ function NewScreen({ route }) {
     const getEventDetails = async () => {
       try {
         const eventData = await axios.get(`${BASE_URL}/api/events/${id}`);
-        console.log(eventData.data)
         setEvents(eventData.data);
         setIsFavorite(eventData.data.isFavorite);
         setSuccessData(true);
@@ -67,22 +57,15 @@ function NewScreen({ route }) {
 
   const toggleIcon = async () => {
     try {
-      console.log("entered toggleFav")
-      const response = await axios.put(`${BASE_URL}/api/events/${events.id}/favorite`, {
+      await axios.put(`${BASE_URL}/api/events/${events.id}/favorite`, {
         isFavorite: !isFavorite
       });
       setIsHeartFilled(!isHeartFilled);
     } catch (error) {
       console.error('Error toggling favorite status:', error);
     }
-
-
   }
-  // };
 
-  const handleBuyTicket = () => {
-    console.log('Buy Ticket pressed');
-  };
   if (isLoading) {
     return (
       <LoadingScreen />
@@ -128,7 +111,7 @@ function NewScreen({ route }) {
                 <Text style={styles.eventDetails}>{events.event_description}</Text>
               </View>
               <Text style={styles.title}>Discussions</Text>
-              <Comments eventID={id} />
+              <Comments eventID={id} userName={userName}/>
             </ScrollView>
           </BuyTicketLayout>
         </>

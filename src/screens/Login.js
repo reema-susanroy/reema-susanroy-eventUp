@@ -22,10 +22,10 @@ function Login({ navigation, route }) {
           contact_email: email,
           password: password,
         });
-        console.log(response.data.user.id)
-
+        
         if (response.data.user.id) {
           await AsyncStorage.setItem('userId', String(response.data.user.id));
+          await AsyncStorage.setItem('userName', String(response.data.user.user_name));
           navigation.navigate('Home');
         } else {
           Alert.alert('Login Failed', 'Invalid email or password');
