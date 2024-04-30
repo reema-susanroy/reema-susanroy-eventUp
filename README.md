@@ -3,7 +3,8 @@ EventUp is an ongoing React Native application designed to help users discover, 
 
 ### Mockups
 **Login Screen**
-![login-screen](./public/images/login.png)
+
+<img src="/public/images/login.png" alt="Alt Text" width="100" height="100">
 
 **Home Screen**
 
