@@ -3,13 +3,13 @@ EventUp is an ongoing React Native application designed to help users discover, 
 
 ### Mockups
 <div style="display: flex">
-<img src="/public/images/login.png" alt="Alt Text" width="150" height="300" style="margin-right: 10px;">
-<img src="/public/images/homepage.png" alt="Alt Text" width="150" height="300" style="margin-right: 10px;">
+<img src="/public/images/login.png" alt="Alt Text" width="150" height="300" style="margin-right: 10;">
+<img src="/public/images/homepage.png" alt="Alt Text" width="150" height="300" style="margin-right: 10;">
 <img src="/public/images/detailsScreen.png" alt="Alt Text" width="150" height="300">
 </div>
 <div style="display: flex; gap: 5">
-<img src="/public/images/confirmBooking.png" alt="Alt Text" width="150" height="300" style="margin-right: 10px;"/>
-<img src="/public/images/favorites.png" alt="Alt Text" width="150" height="300" style="margin-right: 10px;">
+<img src="/public/images/confirmBooking.png" alt="Alt Text" width="150" height="300" style="margin-right: 10;"/>
+<img src="/public/images/favorites.png" alt="Alt Text" width="150" height="300" style="margin-right: 10;">
 <img src="/public/images/bookedTickets.png" alt="Alt Text" width="150" height="300">
 </div>
 
