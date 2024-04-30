@@ -48,9 +48,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   }
 });
-
-const style = StyleSheet.create({
-  headerIcon: {
-    marginRight: 10
-  }
-});

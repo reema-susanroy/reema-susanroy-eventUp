@@ -30,7 +30,7 @@ function FavoritesScreen() {
                         {userData &&
                             userData.map((user) => (
                                 <View key= {user.id}  style={styles.container}>
-                                    <Image style={styles.eventImage} source={{ uri: `http://192.168.1.67:8080/${user.event_image}` }} accessibilityLabel="event name" />
+                                    <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/${user.event_image}` }} accessibilityLabel="event name" />
                                     <View >
                                         <Text style={styles.eventName}>{user.event_name}</Text>
                                         <Text style={styles.eventTime}>{timeCalc(user.date)}, {user.time}</Text>
@@ -52,11 +52,8 @@ const styles = StyleSheet.create({
         margin: 20,
         display:'flex',
         flexDirection:'row',
-        // gap: 10,
         width: '90%',
         height:150,
-        // borderColor: 'gray',
-        // borderWidth: 20,
         borderRadius: 10,
         backgroundColor:'gray',
     },
@@ -83,14 +80,11 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     eventTime:{
-        // width:'80%',
         color: 'white'
 
     },
     eventLocation:{
         width:'60%',        
         color: 'white'
-
     }
-
 });

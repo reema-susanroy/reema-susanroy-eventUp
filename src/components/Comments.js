@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, TextInput, Button } from 'react-native';
+import { View, StyleSheet, Image, TextInput, Button } from 'react-native';
 import DisplayComments from './DisplayComments';
 import axios from "axios";
 import { useEffect, useState } from "react";

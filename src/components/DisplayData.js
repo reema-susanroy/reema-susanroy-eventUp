@@ -15,8 +15,6 @@ function DisplayData({ category }) {
             <View style={styles.container}>
             <TouchableOpacity key={category.id} onPress={ () => goToEvent(category.id)}>
                 <Image style={styles.eventImage} source={{ uri: `${BASE_URL}/${category.event_image}` }} accessibilityLabel="event name" />
-            {/* </View>
-            <View > */}
                 <Text style={styles.eventName}>{category.event_name}</Text>
                 <Text style={styles.eventDate}>{timeCalc(category.date)}, {category.time}</Text>
                 <Text style={styles.eventLocation}>{category.location} {category.country}</Text>

@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: 190,
         height: 230,
-        // borderWidth: 1,
         padding:8,
         borderRadius:10,
         elevation:10,
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background color
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         paddingHorizontal: 10,
         borderRadius:10
     },

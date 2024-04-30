@@ -252,13 +252,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-const containerStyle = StyleSheet.create({
-  button: {
-    width: '20%',
-    borderRadius: 50
-  }
-})
-
-NewScreen.navigationOptions = {
-  headerShown: true, // Show the header with back button
-};
