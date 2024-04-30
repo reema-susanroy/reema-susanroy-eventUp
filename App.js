@@ -20,27 +20,14 @@ export default function App() {
   return (
     <AuthProvider>
     <NavigationContainer>
-      <Stack.Navigator   tabBar={() => <Footer />}
-        screenOptions={{
-          headerTintColor: '#fff',
-          headerTitle: ""
-        }
-      }
-      initialRouteName="Home">
-        <Stack.Screen 
-          name="Home" 
-          component={HomeScreen} 
-          options={({navigation}) => ({
-            headerLeft: () => <Header />,
-          })}
-          />
+      <Stack.Navigator   tabBar={() => <Footer />} screenOptions={{ headerTintColor: '#fff', headerTitle: ""}} initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} options={({navigation}) => ({headerLeft: () => <Header />})}/>
          <Stack.Screen name="Login"  component={Login} />
          <Stack.Screen style={styles.headCont} name="Event" component={NewScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}  />
          <Stack.Screen style={styles.headCont} name="Profile" component={ProfileScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
          <Stack.Screen style={styles.headCont} name="Booking" component={BookingScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }} />
          <Stack.Screen style={styles.headCont} name="Ticket" component={TicketScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}/>
          <Stack.Screen style={styles.headCont} name="Favorite" component={FavoritesScreen} options={{ headerBackImage: () => <Ionicons style={styles.favIcon} name="arrow-back" size={30} color="black" />, }}/>
-
       </Stack.Navigator>
     </NavigationContainer>
   </AuthProvider>
