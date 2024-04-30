@@ -4,7 +4,7 @@ EventUp is an ongoing React Native application designed to help users discover, 
 ### Mockups
 **Login Screen**
 
-<img src="/public/images/login.png" alt="Alt Text" width="100" height="100">
+<img src="/public/images/login.png" alt="Alt Text" width="100" height="300">
 
 **Home Screen**
 
@@ -18,7 +18,7 @@ EventUp is an ongoing React Native application designed to help users discover, 
 
 **Confirm Booking Screen**
 
-![booking-screen](./public/images/confirmBooking.png
+![booking-screen](./public/images/confirmBooking.png)
 
 **Favorites Screen**
 
@@ -26,7 +26,7 @@ EventUp is an ongoing React Native application designed to help users discover, 
 
 **Tickets Screen**
 
-![tickets-screen](./public/images/pastbooking.png)
+![tickets-screen](./public/images/bookedTickets.png)
 
 **Profile Screen**
 
